@@ -13,9 +13,9 @@ export const AddPostsForm = () => {
 
   const users = useSelector(state => state.users)
 
-  const onTitleChange = e => setTitle(e.target.value)
-  const onContentChange = e => setContent(e.target.value)
-  const onAuthorChange = e => setUserId(e.target.value)
+  const onTitleChanged = e => setTitle(e.target.value)
+  const onContentChanged = e => setContent(e.target.value)
+  const onAuthorChanged = e => setUserId(e.target.value)
 
   const onSavePostClick = () => {
     if (title && content) {
@@ -43,10 +43,10 @@ export const AddPostsForm = () => {
           id="postTitle"
           name="postTitle"
           value={title}
-          onChange={onTitleChange}
+          onChange={onTitleChanged}
         />
         <label htmlFor="postAuthor">Author:</label>
-        <select id="postAuthor" value={userId} onChange={onAuthorChange}>
+        <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
           <option value=""></option>
           {userOptions}
         </select>
@@ -56,7 +56,7 @@ export const AddPostsForm = () => {
           id="postContent"
           name="postContent"
           value={content}
-          onChange={onContentChange}
+          onChange={onContentChanged}
         />
         <button type="button" onClick={onSavePostClick} disabled={!canSave}>
           Save Post
