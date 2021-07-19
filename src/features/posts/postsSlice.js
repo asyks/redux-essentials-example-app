@@ -1,4 +1,10 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { client } from '../../api/client'
+
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
+  const response = await client.get('/fakeApi/posts')
+  return response.posts
+})
 
 const initialState = {
   posts: [],
@@ -56,6 +62,8 @@ export const { postAdded, postUpdated, reactionAdded } = postsSlice.actions
 export default postsSlice.reducer
 
 export const selectAllPosts = state => state.posts.posts
+
+export const selectStatus = state => state.posts.status
 
 export const selectPostById = (state, postId) => (
   state.posts.posts.find(post => post.id === postId)
