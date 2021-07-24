@@ -3,12 +3,13 @@ import { client } from '../../api/client'
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const response = await client.get('/fakeApi/posts')
+  console.log(response.posts)
   return response.posts
 })
 
 const initialState = {
   posts: [],
-  state: 'idle',
+  status: 'idle',
   error: null
 }
 
@@ -61,9 +62,9 @@ const postsSlice = createSlice({
     },
     [fetchPosts.fulfilled]: (state, action) => {
       state.status = "succeeded"
-      state.posts = state.posts.concat(action.payload.posts)
+      state.posts = state.posts.concat(action.payload)
     },
-    [fetchPosts.rejected]: (state) => {
+    [fetchPosts.rejected]: (state, action) => {
       state.status = "failed"
       state.error = action.error.message
     }
@@ -77,6 +78,8 @@ export default postsSlice.reducer
 export const selectAllPosts = state => state.posts.posts
 
 export const selectStatus = state => state.posts.status
+
+export const selectError = state => state.posts.error
 
 export const selectPostById = (state, postId) => (
   state.posts.posts.find(post => post.id === postId)
