@@ -7,7 +7,7 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 })
 
 export const addNewPost = createAsyncThunk('posts/addNewPost', async initialPost => {
-  const response = await client.post('/fakeApi/addNewPost', {post: initialPost})
+  const response = await client.post('/fakeApi/posts', {post: initialPost})
   return response.post
 })
 
@@ -72,7 +72,7 @@ const postsSlice = createSlice({
       state.status = "failed"
       state.error = action.error.message
     },
-    [addNewPost] : (state, action) => {
+    [addNewPost.fulfilled] : (state, action) => {
       state.posts.push(action.payload)
     }
   }
