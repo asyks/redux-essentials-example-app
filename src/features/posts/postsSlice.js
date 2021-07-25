@@ -3,7 +3,6 @@ import { client } from '../../api/client'
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const response = await client.get('/fakeApi/posts')
-  console.log(response.posts)
   return response.posts
 })
 
