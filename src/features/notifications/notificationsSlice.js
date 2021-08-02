@@ -20,7 +20,7 @@ const notificationsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchNotifications.fulfilled]: (state, action) => {
-      state.push(action.payload)
+      state.push(...action.payload)
       state.sort((a, b) => b.date.localCompare(a.date))
     }
   }
