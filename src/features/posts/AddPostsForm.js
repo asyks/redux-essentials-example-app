@@ -1,7 +1,8 @@
-import { unwrapResult } from '@reduxjs/toolkit'
 import React, { useState } from 'react'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { selectAllUsers } from '../users/usersSlice'
 import { addNewPost } from './postsSlice'
 
 export const AddPostsForm = () => {
@@ -13,7 +14,7 @@ export const AddPostsForm = () => {
 
   const dispatch = useDispatch()
 
-  const users = useSelector(state => state.users)
+  const users = useSelector(selectAllUsers)
 
   const onTitleChanged = e => setTitle(e.target.value)
   const onContentChanged = e => setContent(e.target.value)
