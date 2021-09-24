@@ -6,9 +6,17 @@ import { Link } from 'react-router-dom'
 import { PostAuthor } from './PostAuthor'
 import { TimeAgo } from './TimeAgo'
 import { ReactionButtons } from './ReactionButtons'
-import { fetchPosts, selectAllPosts, selectError, selectStatus } from './postsSlice'
+import {
+  fetchPosts,
+  selectPostIds,
+  selectPostById,
+  selectError,
+  selectStatus
+} from './postsSlice'
 
-export const PostExcerpt = ({ post }) => {
+export const PostExcerpt = ({ postId }) => {
+  const post = useSelector(state => selectPostById(state, postId))
+
   return (
     <article className="post-excerpt" key={post.id}>
       <h3>{post.title}</h3>
@@ -28,7 +36,7 @@ export const PostExcerpt = ({ post }) => {
 
 export const PostsList = () => {
   const dispatch = useDispatch()
-  const posts = useSelector(selectAllPosts)
+  const orderedPostIds = useSelector(selectPostIds)
 
   const postStatus = useSelector(selectStatus)
   const error = useSelector(selectError)
@@ -44,12 +52,8 @@ export const PostsList = () => {
   if (postStatus === 'loading') {
     content = <div className="loader">Loading...</div>
   } else if (postStatus === "succeeded") {
-    const orderedPosts = posts
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date))
-
-    content = orderedPosts.map(post => (
-      <PostExcerpt key={post.id} post={post} />
+    content = orderedPostIds.map(postId => (
+      <PostExcerpt key={postId} postId={postId} />
     ))
   } else if (postStatus === "failed") {
     content = <div>{error}</div>
