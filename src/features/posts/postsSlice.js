@@ -70,21 +70,21 @@ const postsSlice = createSlice({
       }
     }
   },
-  extraReducers: {
-    [fetchPosts.pending]: (state) => {
+  extraReducers(builder) {
+    builder(fetchPosts.pending, (state) => {
       state.status = "loading"
-    },
-    [fetchPosts.fulfilled]: (state, action) => {
+    })
+    builder(fetchPosts.fulfilled, (state, action) => {
       state.status = "succeeded"
       postsAdapter.upsertMany(state, action.payload)
-    },
-    [fetchPosts.rejected]: (state, action) => {
+    })
+    builder(fetchPosts.rejected, (state, action) => {
       state.status = "failed"
       state.error = action.error.message
-    },
-    [addNewPost.fulfilled]: (state, action) => {
+    })
+    builder(addNewPost.fulfilled, (state, action) => {
       postsAdapter.addOne(state, action.payload)
-    }
+    })
   }
 })
 
